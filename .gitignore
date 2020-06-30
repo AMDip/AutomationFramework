@@ -1,0 +1,8 @@
+# IDE files #
+#############
+nbproject
+.~lock.*
+*.iml
+*.iws
+.idea/*
+target
