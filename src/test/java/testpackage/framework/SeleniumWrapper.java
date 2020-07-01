@@ -2,10 +2,10 @@ package testpackage.framework;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
-import org.testng.Assert;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class SeleniumWrapper {
             element = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.visibilityOfElementLocated(simpleBy));
         } catch (Exception e) {
-            Assert.assertTrue(false, "the Element was not visible and could not be found, locator: "+ simpleBy.toString());
+            Assert.assertTrue("the Element was not visible and could not be found, locator: "+ simpleBy.toString(), false);
             e.printStackTrace();
             throw e;
         }
@@ -68,10 +68,10 @@ public class SeleniumWrapper {
             element = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.visibilityOfElementLocated(simpleBy));
         } catch (Exception e) {
-            Assert.assertTrue(false, message);
+            Assert.assertTrue(message,false);
             throw e;
         }
-        Assert.assertTrue(element != null, message);
+        Assert.assertTrue(message,element != null);
     }
 
     public void Assert_ElementDissapears(By simpleBy, String message)
@@ -82,10 +82,10 @@ public class SeleniumWrapper {
             visible = (new WebDriverWait(driver, 5))
                     .until(ExpectedConditions.invisibilityOfElementLocated(simpleBy));
         } catch (Exception e) {
-            Assert.assertTrue(false, message);
+            Assert.assertTrue(message,false);
             throw e;
         }
-        Assert.assertTrue(visible, message);
+        Assert.assertTrue(message,visible);
     }
 
     public boolean ValidateElementVisibilityInObject(By simpleBy, WebElement context)
@@ -96,7 +96,7 @@ public class SeleniumWrapper {
 
     public void Assert_ElementVisibilityInObject(By simpleBy, WebElement context, String message)
     {
-        Assert.assertTrue(ValidateElementVisibilityInObject(simpleBy, context), message);
+        Assert.assertTrue(message, ValidateElementVisibilityInObject(simpleBy, context));
     }
 
 
@@ -108,7 +108,7 @@ public class SeleniumWrapper {
             element = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(context, simpleBy)).stream().findFirst().get();
         } catch (Exception e) {
-            Assert.assertTrue(false, "the Element was not visible in the context and could not be found, locator: "+ simpleBy.toString());
+            Assert.assertTrue("the Element was not visible in the context and could not be found, locator: "+ simpleBy.toString(),false);
             e.printStackTrace();
         }
         return element;
@@ -122,7 +122,7 @@ public class SeleniumWrapper {
             elements = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(simpleBy));
         } catch (Exception e) {
-            Assert.assertFalse(elements.isEmpty(), "the Elements could not be found, list came out empty with the locator: "+ simpleBy.toString());
+            Assert.assertFalse("the Elements could not be found, list came out empty with the locator: "+ simpleBy.toString(),elements.isEmpty());
             e.printStackTrace();
         }
         return elements;
@@ -136,7 +136,7 @@ public class SeleniumWrapper {
             elements = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(context,simpleBy));
         } catch (NumberFormatException e) {
-            Assert.assertFalse(elements.isEmpty(), "the Elements could not be found, list came out empty with the locator: "+ simpleBy.toString());
+            Assert.assertFalse("the Elements could not be found, list came out empty with the locator: "+ simpleBy.toString(),elements.isEmpty());
             e.printStackTrace();
         }
 
@@ -171,7 +171,7 @@ public class SeleniumWrapper {
             element = (new WebDriverWait(driver, timeoutMS))
                     .until(ExpectedConditions.presenceOfElementLocated(simpleBy));
         } catch (NumberFormatException e) {
-            Assert.assertTrue(element != null, "the Element was not visible in the context and could not be found, locator: "+ simpleBy.toString());
+            Assert.assertTrue("the Element was not visible in the context and could not be found, locator: "+ simpleBy.toString(),element != null);
             e.printStackTrace();
         }
         element.click();
@@ -310,7 +310,7 @@ public class SeleniumWrapper {
         element.click();
         boolean boo = element.isSelected();
         if (!boo) element.click();
-        Assert.assertTrue(boo, "The radio button is not after beign clicked");
+        Assert.assertTrue("The radio button is not after being clicked", boo);
     }
 
     public void MouseOver(By _simpleBy)

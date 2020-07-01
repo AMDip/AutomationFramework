@@ -35,11 +35,6 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.testng</groupId>-->
-<!--            <artifactId>testng</artifactId>-->
-<!--            <version>6.14.3</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>de.monochromata.cucumber</groupId>
             <artifactId>reporting-plugin</artifactId>
