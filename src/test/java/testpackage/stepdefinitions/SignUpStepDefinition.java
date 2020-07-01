@@ -5,14 +5,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import testpackage.framework.Hooks;
 
 public class SignUpStepDefinition {
     @Given("Im a new user")
     public void im_a_new_user() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/webdrivers/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.get("http://demo.automationtesting.in/Register.html");
-        // Write code here that turns the phrase above into concrete actions
+        WebDriver driver= Hooks.driver;
+        driver.navigate().to("http://demo.automationtesting.in/Register.html");
     }
 
     @When("I try to register using the signup page")
