@@ -1,9 +1,12 @@
 package testpackage.framework;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverService;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.SessionId;
 import java.net.InetAddress;
@@ -15,33 +18,16 @@ public class DriverSetup {
     public static SessionId sessionId ;
     public static WebDriver browser;
 
-    public static String GetHostname()
-    {
-        String hostname = "Unknown";
-        try
-        {
-            InetAddress addr;
-            addr = InetAddress.getLocalHost();
-            hostname = addr.getHostName();
-        }
-        catch (UnknownHostException ex)
-        {
-            System.out.println("Hostname can not be resolved");
-        }
-        return hostname;
-    }
-
     public static WebDriver GetDriver(String driver)
     {
-        String hostname = GetHostname();
         switch(driver) {
             case "chrome":
                 //Setting up Chrome Driver
-                browser = GetChromeDriver(false);
+                browser = GetChromeDriver(null);
                 break;
             case "headless-chrome":
                 //Setting up Headless Chrome Driver
-                browser = GetChromeDriver(true);
+                browser = GetChromeDriver("--headless");
                 break;
             case "firefox":
                 //Setting up Firefox Driver
@@ -53,36 +39,19 @@ public class DriverSetup {
 
     private static WebDriver GetFirefoxDriver()
     {
+        WebDriverManager.firefoxdriver().setup();
         FirefoxOptions options = new FirefoxOptions();
-        String strFFBinaryPath = "/src/test/resources/webdrivers/firefox.exe";
-        options.setBinary(strFFBinaryPath);
-        return new FirefoxDriver(options);
+        return new FirefoxDriver();
     }
 
-    private static WebDriver GetChromeDriver(boolean headless)
+    private static WebDriver GetChromeDriver(String args)
     {
-        String path = "";
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")){
-            path = System.getProperty("user.dir") + "/src/test/resources/webdrivers";
-        }
-        else if (os.contains("mac os x")){
-            path = "/Users/webdrivers/chromedriver";
-        }
-        else if (os.contains("nix") || os.contains("aix") || os.contains("nux")){
-            path ="/home/webdrivers/chromedriver";
-        }
+        WebDriverManager.chromedriver().setup();
+        ChromeDriverService driverService = ChromeDriverService.createDefaultService();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
-        if(headless) {
-            options.addArguments("--headless");
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") +
-                                         "/src/test/resources/webdrivers/chromedriver.exe");
-        }
-        else {
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/webdrivers/chromedriver.exe");
-        }
-        return new ChromeDriver(options);
+        if(args != null)  options.addArguments(args);
+        return new ChromeDriver(driverService, options);
     }
 
     private static WebDriver ConfigureWaits(WebDriver driver)

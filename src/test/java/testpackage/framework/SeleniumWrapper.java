@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class SeleniumWrapper {
 
     WebDriver driver;
-    int timeoutMS=500;
+    int timeoutMS=5000;
 
     public SeleniumWrapper(WebDriver _driver)
     {
